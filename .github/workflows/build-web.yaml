@@ -1,0 +1,40 @@
+name: build-web
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Flutter - setup SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+      - name: Insert secrets
+        run: echo -n "${{secrets.FIREBASE_OPTIONS}}" > ./lib/firebase_options.dart
+      - name: Flutter - build application
+        run: flutter build web --release
+      - name: Upload artifacts
+        uses: actions/upload-artifacts@v3
+        with:
+          name: app-build-release
+          path: build/web
+  deploy-on-github-pages:
+    runs-on: ubuntu-latest
+    environment: Deployment
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: app-build-release
+          path: build/web
+      - name: Deploy to Github Pages
+        uses: paceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          publish_dir: build/web
