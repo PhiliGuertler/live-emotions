@@ -25,6 +25,7 @@ jobs:
           name: app-build-release
           path: build/web
   deploy-on-github-pages:
+    needs: build
     runs-on: ubuntu-latest
     environment: Deployment
     steps:
