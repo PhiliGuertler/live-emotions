@@ -67,12 +67,12 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: const EmotionScreen(emotionRankings: <Emotion, double>{
-        Emotion.anger: 0.2,
-        Emotion.calmness: 0.1,
-        Emotion.fear: 0.4,
-        Emotion.grief: 0.1,
-        Emotion.joy: 0.2,
+      body: const EmotionScreen(emotionVotes: <Emotion, int>{
+        Emotion.anger: 2,
+        Emotion.calmness: 1,
+        Emotion.fear: 4,
+        Emotion.grief: 1,
+        Emotion.joy: 2,
       }),
       // floatingActionButton: FloatingActionButton(
       //   onPressed: _incrementCounter,

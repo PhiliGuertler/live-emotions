@@ -26,74 +26,36 @@ class ButtonContainer extends StatelessWidget {
 }
 
 class EmotionScreen extends StatelessWidget {
-  final Map<Emotion, double> emotionRankings;
+  final Map<Emotion, int> emotionVotes;
 
-  const EmotionScreen({super.key, required this.emotionRankings});
-
-  Color mixColors() {
-    Color result = Colors.white;
-    emotionRankings.forEach((emotion, value) {
-      result = Color.lerp(result, emotion.color, 1 - value)!;
-    });
-    return result;
-  }
+  const EmotionScreen({super.key, required this.emotionVotes});
 
   @override
   Widget build(BuildContext context) {
-    Color mixedColor = mixColors();
+    int maxVotes = emotionVotes.values
+        .fold(0, (max, current) => max > current ? max : current);
 
-    return Container(
-      color: mixedColor,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        for (final emotion in Emotion.values)
           ButtonContainer(
-            alignment: Alignment.topLeft,
+            alignment: emotion.alignment,
             child: EmotionButton(
-              emotion: Emotion.anger,
+              emotion: emotion,
               onPressed: () {
-                debugPrint(Emotion.anger.emoji);
+                debugPrint(emotion.emoji);
               },
+              votes: emotionVotes.containsKey(emotion)
+                  ? emotionVotes[emotion]!
+                  : 0,
+              hasMostVotes: maxVotes ==
+                  (emotionVotes.containsKey(emotion)
+                      ? emotionVotes[emotion]!
+                      : 0),
             ),
           ),
-          ButtonContainer(
-            alignment: Alignment.topRight,
-            child: EmotionButton(
-              emotion: Emotion.grief,
-              onPressed: () {
-                debugPrint(Emotion.grief.emoji);
-              },
-            ),
-          ),
-          ButtonContainer(
-            alignment: Alignment.center,
-            child: EmotionButton(
-              emotion: Emotion.calmness,
-              onPressed: () {
-                debugPrint(Emotion.calmness.emoji);
-              },
-            ),
-          ),
-          ButtonContainer(
-            alignment: Alignment.bottomLeft,
-            child: EmotionButton(
-              emotion: Emotion.fear,
-              onPressed: () {
-                debugPrint(Emotion.fear.emoji);
-              },
-            ),
-          ),
-          ButtonContainer(
-            alignment: Alignment.bottomRight,
-            child: EmotionButton(
-              emotion: Emotion.joy,
-              onPressed: () {
-                debugPrint(Emotion.joy.emoji);
-              },
-            ),
-          ),
-        ],
-      ),
+      ],
     );
   }
 }

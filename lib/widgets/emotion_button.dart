@@ -1,31 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:badges/badges.dart' as badges;
 
 enum Emotion {
-  grief(emoji: "😢", name: "Trauer", color: Color.fromARGB(255, 130, 195, 248)),
-  joy(emoji: "😊", name: "Freude", color: Color.fromARGB(255, 169, 233, 172)),
-  anger(emoji: "😡", name: "Wut", color: Color.fromARGB(255, 243, 169, 164)),
+  grief(
+    emoji: "😢",
+    name: "Trauer",
+    color: Color.fromARGB(255, 130, 195, 248),
+    alignment: Alignment.topLeft,
+  ),
+  joy(
+    emoji: "😊",
+    name: "Freude",
+    color: Color.fromARGB(255, 169, 233, 172),
+    alignment: Alignment.topRight,
+  ),
   calmness(
-      emoji: "😌", name: "Ruhe", color: Color.fromARGB(255, 216, 216, 216)),
-  fear(emoji: "😱", name: "Angst", color: Color.fromARGB(255, 212, 129, 226));
+    emoji: "😌",
+    name: "Ruhe",
+    color: Color.fromARGB(255, 216, 216, 216),
+    alignment: Alignment.center,
+  ),
+  anger(
+    emoji: "😡",
+    name: "Wut",
+    color: Color.fromARGB(255, 243, 169, 164),
+    alignment: Alignment.bottomLeft,
+  ),
+  fear(
+    emoji: "😱",
+    name: "Angst",
+    color: Color.fromARGB(255, 212, 129, 226),
+    alignment: Alignment.bottomRight,
+  );
 
   final String emoji;
   final String name;
   final Color color;
+  final Alignment alignment;
 
-  const Emotion({required this.emoji, required this.name, required this.color});
+  const Emotion(
+      {required this.emoji,
+      required this.name,
+      required this.color,
+      required this.alignment});
 }
 
 class EmotionButton extends StatefulWidget {
   final Emotion emotion;
   final VoidCallback onPressed;
   final Duration cooldown;
+  final int votes;
+  final bool hasMostVotes;
 
   const EmotionButton({
     super.key,
     required this.emotion,
     required this.onPressed,
-    this.cooldown = const Duration(seconds: 5),
+    this.cooldown = const Duration(seconds: 30),
+    required this.votes,
+    required this.hasMostVotes,
   });
 
   @override
@@ -50,7 +84,7 @@ class _EmotionButtonState extends State<EmotionButton>
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
+    Widget result = LayoutBuilder(builder: (context, constraints) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(16.0),
         child: Stack(
@@ -143,5 +177,28 @@ class _EmotionButtonState extends State<EmotionButton>
         ),
       );
     });
+
+    if (widget.hasMostVotes) {
+      result = result
+          .animate(
+            onPlay: (controller) => controller.repeat(),
+          )
+          .shimmer(delay: 1.seconds);
+    }
+    result = result
+        .animate(target: widget.hasMostVotes ? 1 : 0)
+        .scale(begin: const Offset(1, 1), end: const Offset(1.2, 1.2));
+    return badges.Badge(
+      position: badges.BadgePosition.topEnd(top: -8, end: -8),
+      badgeStyle: badges.BadgeStyle(
+        shape: badges.BadgeShape.square,
+        badgeColor: widget.emotion.color,
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        borderRadius: BorderRadius.circular(8),
+        elevation: 3,
+      ),
+      badgeContent: Text(widget.votes.toString()),
+      child: result,
+    );
   }
 }
