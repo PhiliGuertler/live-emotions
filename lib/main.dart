@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'widgets/emotion_button.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -105,6 +107,26 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            EmotionButton(
+              emotion: Emotion.grief,
+              onPressed: () {},
+            ),
+            EmotionButton(
+              emotion: Emotion.joy,
+              onPressed: () {},
+            ),
+            EmotionButton(
+              emotion: Emotion.calmness,
+              onPressed: () {},
+            ),
+            EmotionButton(
+              emotion: Emotion.anger,
+              onPressed: () {},
+            ),
+            EmotionButton(
+              emotion: Emotion.fear,
+              onPressed: () {},
+            ),
             const Text(
               'You have pushed the button this many times:',
             ),
