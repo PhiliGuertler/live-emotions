@@ -1,9 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:live_emotions/widgets/emotion_screen.dart';
 
 import 'widgets/emotion_button.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+void main() async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(const MyApp());
 }
 
@@ -67,18 +73,12 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: const EmotionScreen(emotionVotes: <Emotion, int>{
-        Emotion.anger: 2,
-        Emotion.calmness: 1,
-        Emotion.fear: 4,
-        Emotion.grief: 1,
-        Emotion.joy: 2,
-      }),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: const EmotionScreen(),
     );
+    // floatingActionButton: FloatingActionButton(
+    //   onPressed: _incrementCounter,
+    //   tooltip: 'Increment',
+    //   child: const Icon(Icons.add),
+    // ), // This trailing comma makes auto-formatting nicer for build methods.
   }
 }

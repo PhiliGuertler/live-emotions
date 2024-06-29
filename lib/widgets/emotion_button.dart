@@ -8,42 +8,50 @@ enum Emotion {
     name: "Trauer",
     color: Color.fromARGB(255, 130, 195, 248),
     alignment: Alignment.topLeft,
+    id: "grief",
   ),
   joy(
     emoji: "😊",
     name: "Freude",
     color: Color.fromARGB(255, 169, 233, 172),
     alignment: Alignment.topRight,
+    id: "joy",
   ),
   calmness(
     emoji: "😌",
     name: "Ruhe",
     color: Color.fromARGB(255, 216, 216, 216),
     alignment: Alignment.center,
+    id: "calmness",
   ),
   anger(
     emoji: "😡",
     name: "Wut",
     color: Color.fromARGB(255, 243, 169, 164),
     alignment: Alignment.bottomLeft,
+    id: "anger",
   ),
   fear(
     emoji: "😱",
     name: "Angst",
     color: Color.fromARGB(255, 212, 129, 226),
     alignment: Alignment.bottomRight,
+    id: "fear",
   );
 
   final String emoji;
   final String name;
   final Color color;
   final Alignment alignment;
+  final String id;
 
-  const Emotion(
-      {required this.emoji,
-      required this.name,
-      required this.color,
-      required this.alignment});
+  const Emotion({
+    required this.emoji,
+    required this.name,
+    required this.color,
+    required this.alignment,
+    required this.id,
+  });
 }
 
 class EmotionButton extends StatefulWidget {
