@@ -19,22 +19,8 @@ jobs:
       - name: Flutter - build application
         run: flutter build web --release
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: app-build-release
-          path: build/web
-  deploy-on-github-pages:
-    needs: build
-    runs-on: ubuntu-latest
-    environment: Deployment
-    steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: app-build-release
           path: build/web
       - name: Deploy to Github Pages
-        uses: paceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          publish_dir: build/web
+        uses: actions/deploy-pages@v4
