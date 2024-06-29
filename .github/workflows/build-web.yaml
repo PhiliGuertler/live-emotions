@@ -17,7 +17,7 @@ jobs:
       - name: Insert secrets
         run: echo -n "${{secrets.FIREBASE_OPTIONS}}" > ./lib/firebase_options.dart
       - name: Flutter - build application
-        run: flutter build web --release --base-href="/live-emotions/
+        run: flutter build web --release --base-href="/live-emotions/"
       - name: Upload artifacts
         uses: actions/upload-pages-artifact@v3
         with:
