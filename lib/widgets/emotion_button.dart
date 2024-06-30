@@ -187,11 +187,38 @@ class _EmotionButtonState extends State<EmotionButton>
     });
 
     if (widget.hasMostVotes) {
-      result = result
-          .animate(
-            onPlay: (controller) => controller.repeat(),
-          )
-          .shimmer(delay: 1.seconds);
+      result = Stack(
+        children: [
+          ClipRRect(
+                  borderRadius: BorderRadius.circular(16.0),
+                  child: Material(
+                    color: widget.emotion.color.withOpacity(0.5),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: widget.emotion.color,
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                    ),
+                  ))
+              .animate(
+                onPlay: (controller) => controller.repeat(),
+              )
+              .scale(
+                begin: const Offset(1, 1),
+                end: const Offset(2, 2),
+                duration: 250.milliseconds,
+                delay: 1.seconds,
+              )
+              .fadeOut(
+                duration: 250.milliseconds,
+                delay: 1.seconds,
+              ),
+          result,
+        ],
+      );
     }
     result = result
         .animate(target: widget.hasMostVotes ? 1 : 0)
